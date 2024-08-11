@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const UserModel = require("./models/Users");
 const TaskModel = require("./models/TaskModel");
-
+const nodemailer = require('nodemailer');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken"); // Import the jsonwebtoken package
 const app = express();
@@ -45,6 +45,7 @@ app.post("/signup", async (req, res) => {
     });
     const savedUser = await user.save();
     res.status(201).json(savedUser);
+    sendMail(req.body.email);
   } catch (err) {
     console.error("Signup error:", err.message); // Log detailed error message
     res
@@ -60,7 +61,7 @@ app.post("/signup", async (req, res) => {
 
 // Route to handle user login and generate JWT token
 app.post("/login", async (req, res) => {
-  
+
   try {
     const user = await UserModel.findOne({ email: req.body.email });
     if (!user) {
@@ -95,7 +96,7 @@ app.get("/", (req, res) => {
 // Route to create a new task
 app.post("/Create", (req, res) => {
   TaskModel.create(req.body)
-  
+
     .then((tasks) => res.json(tasks))
     .catch((err) => {
       console.error("Error creating task:", err); // Log error details
@@ -122,19 +123,19 @@ app.get("/getTask/:id", (req, res) => {
 });
 
 
-    app.put("/Edit/:id", (req, res) => {
-      const id = req.params.id;
-      TaskModel.findByIdAndUpdate(
-        { _id: id },
+app.put("/Edit/:id", (req, res) => {
+  const id = req.params.id;
+  TaskModel.findByIdAndUpdate(
+    { _id: id },
 
-        {
-          title: req.body.title,
-          note: req.body.note,
-        }
-      )
-        .then((tasks) => res.json(tasks))
-        .catch((err) => res.json(err));
-    });
+    {
+      title: req.body.title,
+      note: req.body.note,
+    }
+  )
+    .then((tasks) => res.json(tasks))
+    .catch((err) => res.json(err));
+});
 
 
 
@@ -143,9 +144,9 @@ app.put("/Pin/:id", (req, res) => {
   const { status } = req.body;
 
   TaskModel.findByIdAndUpdate(
-    id, 
+    id,
     { status },
-    { new: true } 
+    { new: true }
   )
     .then((task) => {
       if (task) {
@@ -159,35 +160,40 @@ app.put("/Pin/:id", (req, res) => {
 
 
 
-    app.delete("/delete/:id", (req, res) => {
-      const id = req.params.id;
-      TaskModel.findByIdAndDelete({ _id: id })
-        .then((res) => res.json(res)) //  users collection name
-        .catch((err) => res.json(err));
-    });
+app.delete("/delete/:id", (req, res) => {
+  const id = req.params.id;
+  TaskModel.findByIdAndDelete({ _id: id })
+    .then((res) => res.json(res)) //  users collection name
+    .catch((err) => res.json(err));
+});
 
+let mailTransporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'emuats0@gmail.com',
+    pass: 'gcvmctqxanoqlpgf'
+  }
+});
 
 //sending mail functionality
-function sendMail(email, message)
-{
+function sendMail(email) {
 
   let mailDetails = {
-      from: {
-          name: "Kaleb M.",
-          email: "no-reply@kalebmelaku97@gmail.com"
-      },
-      to: email,
-      subject: 'Subject of the  ail',
-      text: message
+    from: {
+      name: "emuats",
+      email: "no-reply@emuats0@gmail.com"
+    },
+    to: email,
+    subject: 'Subject of the mail',
+    text: "Welcome to task management application"
   };
 
-  mailTransporter.sendMail(mailDetails, function (err, data)
-  {
-      if (err) {
-          console.log(err);
-      } else {
-          console.log('Email sent successfully');
-      }
+  mailTransporter.sendMail(mailDetails, function (err, data) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Email sent successfully');
+    }
   });
 
 }
