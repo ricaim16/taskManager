@@ -1,0 +1,74 @@
+/* Centering the container on the page */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+/* Styling the form */
+.login-form {
+  max-width: 400px;
+  width: 100%;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+/* Adjust form spacing and styling */
+.form-small .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-small .form-label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.form-small .form-control {
+  width: 100%;
+  height: 2.75rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-small .form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+.form-small .btn {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  margin-top: 1rem;
+}
+
+.form-small .btn:hover {
+  background-color: #218838;
+}
+
+.toggle-link {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.toggle-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.toggle-link a:hover {
+  text-decoration: underline;
+}

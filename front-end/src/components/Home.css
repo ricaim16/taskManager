@@ -1,0 +1,9 @@
+.sidebar {
+  min-height: 100vh;
+  /* Full height of the viewport */
+}
+
+.main-content {
+  background-color: #f8f9fa;
+  /* Light background for the main content area */
+}
